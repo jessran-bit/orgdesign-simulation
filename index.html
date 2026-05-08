@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SYSTHEO Organizational Design Simulation</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f7f5;
+      margin: 0;
+      color: #1f2933;
+    }
+
+    header {
+      background: #14532d;
+      color: white;
+      padding: 28px;
+      text-align: center;
+    }
+
+    .container {
+      max-width: 950px;
+      margin: 30px auto;
+      background: white;
+      padding: 28px;
+      border-radius: 16px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+    }
+
+    h1, h2, h3 {
+      margin-top: 0;
+    }
+
+    .stage {
+      background: #ecfdf5;
+      border-left: 6px solid #16a34a;
+      padding: 18px;
+      margin-bottom: 20px;
+      border-radius: 10px;
+    }
+
+    .problem {
+      background: #fff7ed;
+      border-left: 6px solid #f97316;
+      padding: 16px;
+      border-radius: 10px;
+      margin: 16px 0;
+    }
+
+    .choices {
+      display: grid;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    button {
+      padding: 14px;
+      font-size: 16px;
+      border: none;
+      border-radius: 10px;
+      background: #166534;
+      color: white;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    button:hover {
+      background: #15803d;
+      transform: scale(1.01);
+    }
+
+    .secondary {
+      background: #334155;
+    }
+
+    .secondary:hover {
+      background: #475569;
+    }
+
+    .feedback {
+      background: #eff6ff;
+      border-left: 6px solid #2563eb;
+      padding: 18px;
+      margin-top: 20px;
+      border-radius: 10px;
+    }
+
+    .scorebox {
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      padding: 16px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+
+    .org-chart {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 25px 0;
+    }
+
+    .box {
+      background: #dcfce7;
+      border: 2px solid #16a34a;
+      padding: 12px 18px;
+      border-radius: 10px;
+      margin: 8px;
+      text-align: center;
+      min-width: 150px;
+    }
+
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 120px;
+      padding: 12px;
+      font-size: 15px;
+      border-radius: 10px;
+      border: 1px solid #cbd5e1;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: #64748b;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>SYSTHEO Organizational Design Simulation</h1>
+  <p>EcoTripp: Evolving Structures</p>
+</header>
+
+<div class="container" id="app">
+
+  <div id="intro">
+    <h2>Welcome to the EcoTripp Simulation</h2>
+    <p>
+      EcoTripp is a sustainable travel company that started as a small five-person startup.
+      As the company grows, its structure, communication, decision-making, and coordination
+      systems begin to face pressure.
+    </p>
+
+    <p>
+      Your task is to make organizational design decisions as EcoTripp evolves.
+      There is no single perfect answer. Each structure has advantages and trade-offs.
+    </p>
+
+    <div class="stage">
+      <strong>Your goal:</strong> Help EcoTripp balance flexibility, coordination,
+      accountability, and growth.
+    </div>
+
+    <button onclick="startSimulation()">Start Simulation</button>
+  </div>
+
+  <div id="simulation" class="hidden">
+    <div class="scorebox">
+      <strong>Current Stage:</strong> <span id="stageLabel"></span><br>
+      <strong>Design Score:</strong> <span id="score">0</span><br>
+      <strong>Current Structure:</strong> <span id="structureLabel">None yet</span>
+    </div>
+
+    <div id="content"></div>
+  </div>
+
+  <div id="reflection" class="hidden">
+    <h2>Final Reflection</h2>
+    <p>Answer the following questions in 3–5 sentences each. You may copy your answers for Canvas submission.</p>
+
+    <h3>1. What organizational problems emerged as EcoTripp grew?</h3>
+    <textarea></textarea>
+
+    <h3>2. What structure would you recommend for EcoTripp at the midsize stage? Why?</h3>
+    <textarea></textarea>
+
+    <h3>3. What trade-off did you notice between flexibility and control?</h3>
+    <textarea></textarea>
+
+    <h3>4. How is this simulation connected to organizations as systems?</h3>
+    <textarea></textarea>
+
+    <br><br>
+    <button onclick="showSummary()">Submit Reflection</button>
+  </div>
+
+  <div id="summary" class="hidden"></div>
+
+</div>
+
+<footer>
+  SYSTHEO | Organizational Theory and Design
+</footer>
+
+<script>
+  let score = 0;
+  let stage = 0;
+  let structure = "None yet";
+
+  const stages = [
+    {
+      label: "Stage 1: Five-Person Startup",
+      title: "EcoTripp Begins",
+      description: `
+        EcoTripp starts with five people: one founder, one marketing assistant,
+        one operations coordinator, one finance/admin officer, and one customer support staff.
+        Everyone talks directly to everyone. Decisions are fast, but roles are informal.
+      `,
+      problem: `
+        Problem: The company is flexible, but responsibilities are unclear.
+        Some tasks are repeated, while others are forgotten.
+      `,
+      chart: `
+        <div class="org-chart">
+          <div class="box">Founder</div>
+          <div class="row">
+            <div class="box">Marketing</div>
+            <div class="box">Operations</div>
+            <div class="box">Finance/Admin</div>
+            <div class="box">Customer Support</div>
+          </div>
+        </div>
+      `,
+      choices: [
+        {
+          text: "Keep the flat structure because the team is still small.",
+          points: 2,
+          structure: "Flat Structure",
+          feedback: "Good choice for flexibility. However, EcoTripp still needs clearer role expectations to avoid confusion."
+        },
+        {
+          text: "Create strict departments immediately.",
+          points: 1,
+          structure: "Early Functional Structure",
+          feedback: "This adds clarity, but it may be too formal for a five-person startup and may slow down creativity."
+        },
+        {
+          text: "Assign clear roles but keep communication open.",
+          points: 3,
+          structure: "Simple Structure with Role Clarity",
+          feedback: "Strong choice. EcoTripp keeps flexibility while reducing confusion through clearer responsibilities."
+        }
+      ]
+    },
+    {
+      label: "Stage 2: Growing Company with 20 Employees",
+      title: "EcoTripp Expands",
+      description: `
+        EcoTripp now has 20 employees. It offers eco-tours, school travel programs,
+        corporate sustainability trips, and online booking support.
+      `,
+      problem: `
+        Problem: The founder is overloaded. Employees are unsure who approves decisions.
+        Marketing promises packages that operations cannot always deliver.
+      `,
+      chart: `
+        <div class="org-chart">
+          <div class="box">Founder</div>
+          <div class="row">
+            <div class="box">Marketing Team</div>
+            <div class="box">Tour Operations</div>
+            <div class="box">Finance/Admin</div>
+            <div class="box">Customer Experience</div>
+          </div>
+        </div>
+      `,
+      choices: [
+        {
+          text: "Use a functional structure organized by department.",
+          points: 3,
+          structure: "Functional Structure",
+          feedback: "Good choice. Functional structure improves specialization, accountability, and coordination within departments."
+        },
+        {
+          text: "Keep everyone reporting directly to the founder.",
+          points: 1,
+          structure: "Founder-Centered Structure",
+          feedback: "This may preserve control, but it creates bottlenecks and slows down decision-making."
+        },
+        {
+          text: "Create product teams immediately for every tour package.",
+          points: 2,
+          structure: "Product Team Structure",
+          feedback: "This can help customer focus, but it may be too early and resource-heavy for only 20 employees."
+        }
+      ]
+    },
+    {
+      label: "Stage 3: Midsize Company with 50 Employees",
+      title: "EcoTripp Becomes Established",
+      description: `
+        EcoTripp now has 50 employees. It serves schools, companies, families,
+        and international visitors. The company also has remote staff and regional tour partners.
+      `,
+      problem: `
+        Problem: Coordination is now more complex. Different customer groups have different needs.
+        Sustainability standards are not applied consistently across all tours.
+      `,
+      chart: `
+        <div class="org-chart">
+          <div class="box">CEO / Founder</div>
+          <div class="row">
+            <div class="box">Marketing</div>
+            <div class="box">Operations</div>
+            <div class="box">Finance</div>
+            <div class="box">HR</div>
+            <div class="box">Sustainability</div>
+          </div>
+        </div>
+      `,
+      choices: [
+        {
+          text: "Remain purely functional because departments are already familiar.",
+          points: 2,
+          structure: "Functional Structure",
+          feedback: "This keeps efficiency, but it may not fully address the different needs of schools, companies, and tourists."
+        },
+        {
+          text: "Shift to a divisional structure based on customer segments.",
+          points: 3,
+          structure: "Divisional Structure",
+          feedback: "Strong choice. Divisions by customer segment can improve responsiveness, but may duplicate some resources."
+        },
+        {
+          text: "Use a matrix structure combining functions and customer/project teams.",
+          points: 3,
+          structure: "Matrix Structure",
+          feedback: "Strong but complex choice. Matrix structure improves collaboration but may create confusion if reporting lines are unclear."
+        }
+      ]
+    },
+    {
+      label: "Stage 4: Coordination Challenge",
+      title: "The Hidden Problem",
+      description: `
+        EcoTripp has a structure, but employees still complain about slow updates,
+        unclear communication, and inconsistent decisions.
+      `,
+      problem: `
+        Problem: Structure alone is not enough. The company also needs coordination systems.
+      `,
+      chart: `
+        <div class="org-chart">
+          <div class="box">Organization Structure</div>
+          <div class="row">
+            <div class="box">Meetings</div>
+            <div class="box">Policies</div>
+            <div class="box">Shared Tools</div>
+            <div class="box">Decision Rules</div>
+          </div>
+        </div>
+      `,
+      choices: [
+        {
+          text: "Add weekly cross-functional meetings and a shared project tracker.",
+          points: 3,
+          structure: structure + " + Coordination Systems",
+          feedback: "Excellent choice. Organizational design includes both structure and coordination mechanisms."
+        },
+        {
+          text: "Ask employees to communicate better without changing systems.",
+          points: 1,
+          structure: structure,
+          feedback: "This is too vague. Communication problems often need systems, routines, and tools."
+        },
+        {
+          text: "Require all decisions to go back to the founder.",
+          points: 1,
+          structure: "Centralized Structure",
+          feedback: "This may create consistency, but it also creates bottlenecks and weakens employee ownership."
+        }
+      ]
+    }
+  ];
+
+  function startSimulation() {
+    document.getElementById("intro").classList.add("hidden");
+    document.getElementById("simulation").classList.remove("hidden");
+    stage = 0;
+    renderStage();
+  }
+
+  function renderStage() {
+    const s = stages[stage];
+    document.getElementById("stageLabel").innerText = s.label;
+    document.getElementById("score").innerText = score;
+    document.getElementById("structureLabel").innerText = structure;
+
+    let choicesHTML = "";
+    s.choices.forEach((choice, index) => {
+      choicesHTML += `<button onclick="chooseOption(${index})">${choice.text}</button>`;
+    });
+
+    document.getElementById("content").innerHTML = `
+      <h2>${s.title}</h2>
+      <div class="stage">${s.description}</div>
+      ${s.chart}
+      <div class="problem">${s.problem}</div>
+      <h3>What should EcoTripp do?</h3>
+      <div class="choices">${choicesHTML}</div>
+    `;
+  }
+
+  function chooseOption(index) {
+    const choice = stages[stage].choices[index];
+    score += choice.points;
+    structure = choice.structure;
+
+    document.getElementById("score").innerText = score;
+    document.getElementById("structureLabel").innerText = structure;
+
+    document.getElementById("content").innerHTML += `
+      <div class="feedback">
+        <h3>Feedback</h3>
+        <p>${choice.feedback}</p>
+        <p><strong>Points earned:</strong> ${choice.points}</p>
+        <button onclick="nextStage()">Continue</button>
+      </div>
+    `;
+
+    const buttons = document.querySelectorAll("#content button");
+    buttons.forEach((btn, i) => {
+      if (i < stages[stage].choices.length) {
+        btn.disabled = true;
+        btn.style.opacity = "0.6";
+      }
+    });
+  }
+
+  function nextStage() {
+    stage++;
+    if (stage < stages.length) {
+      renderStage();
+    } else {
+      document.getElementById("simulation").classList.add("hidden");
+      document.getElementById("reflection").classList.remove("hidden");
+    }
+  }
+
+  function showSummary() {
+    let interpretation = "";
+
+    if (score >= 11) {
+      interpretation = "Excellent design thinking. You balanced flexibility, coordination, accountability, and growth.";
+    } else if (score >= 8) {
+      interpretation = "Good design thinking. You made practical choices, but some areas may need stronger coordination.";
+    } else {
+      interpretation = "Developing design thinking. Review how structure, communication, and decision-making affect organizational performance.";
+    }
+
+    document.getElementById("reflection").classList.add("hidden");
+    document.getElementById("summary").classList.remove("hidden");
+
+    document.getElementById("summary").innerHTML = `
+      <h2>Simulation Complete</h2>
+      <div class="scorebox">
+        <strong>Final Design Score:</strong> ${score} / 12<br>
+        <strong>Final Structure:</strong> ${structure}
+      </div>
+
+      <div class="feedback">
+        <h3>Your Result</h3>
+        <p>${interpretation}</p>
+      </div>
+
+      <h3>Key Takeaway</h3>
+      <p>
+        Organizational design is not only about drawing boxes in an org chart.
+        It is about aligning people, roles, decisions, communication, and systems
+        with the organization’s strategy and environment.
+      </p>
+
+      <button onclick="location.reload()" class="secondary">Restart Simulation</button>
+    `;
+  }
+</script>
+
+</body>
+</html>
