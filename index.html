@@ -81,6 +81,7 @@
       color: white;
       cursor: pointer;
       transition: 0.2s;
+      margin: 6px 4px;
     }
 
     button:hover {
@@ -160,6 +161,22 @@
       padding: 20px;
       color: #64748b;
     }
+
+    @media print {
+      button {
+        display: none;
+      }
+
+      body {
+        background: white;
+      }
+
+      .container {
+        box-shadow: none;
+        margin: 0;
+        max-width: 100%;
+      }
+    }
   </style>
 </head>
 
@@ -217,23 +234,30 @@
   </div>
 
   <div id="reflection" class="hidden">
-  <h2>Final Reflection</h2>
-  <p>Answer briefly. Your responses will appear on the final completion page for easier screenshot or Canvas submission.</p>
+    <h2>Final Reflection</h2>
+    <p>
+      Answer briefly. Your responses will appear on the final completion page
+      for easier screenshot or Canvas submission.
+    </p>
 
-  <h3>1. What made Sariwa Trails an open system?</h3>
-  <textarea id="response1"></textarea>
+    <h3>1. What made Sariwa Trails an open system?</h3>
+    <textarea id="response1"></textarea>
 
-  <h3>2. Which structural dimension was most important in your design: formalization, specialization, hierarchy, complexity, or centralization? Why?</h3>
-  <textarea id="response2"></textarea>
+    <h3>2. Which structural dimension was most important in your design: formalization, specialization, hierarchy, complexity, or centralization? Why?</h3>
+    <textarea id="response2"></textarea>
 
-  <h3>3. Did your final design lean more mechanistic or organic? Explain.</h3>
-  <textarea id="response3"></textarea>
+    <h3>3. Did your final design lean more mechanistic or organic? Explain.</h3>
+    <textarea id="response3"></textarea>
 
-  <h3>4. How did stakeholders affect your organizational design decisions?</h3>
-  <textarea id="response4"></textarea>
+    <h3>4. How did stakeholders affect your organizational design decisions?</h3>
+    <textarea id="response4"></textarea>
 
-  <br><br>
-  <button onclick="showSummary()">Submit Reflection</button>
+    <br><br>
+    <button onclick="showSummary()">Submit Reflection</button>
+  </div>
+
+  <div id="summary" class="hidden"></div>
+
 </div>
 
 <footer>
@@ -593,72 +617,81 @@
     }
   }
 
-  <script>
-function showSummary() {
-  const response1 = document.getElementById("response1").value;
-  const response2 = document.getElementById("response2").value;
-  const response3 = document.getElementById("response3").value;
-  const response4 = document.getElementById("response4").value;
-
-  let interpretation = "";
-
-  if (score >= 16) {
-    interpretation = "Excellent organizational design thinking. You considered open systems, contingency fit, structure, stakeholders, efficiency, and effectiveness.";
-  } else if (score >= 12) {
-    interpretation = "Good organizational design thinking. You made practical choices, though some areas may need better fit or stronger stakeholder balance.";
-  } else {
-    interpretation = "Developing organizational design thinking. Review how structural dimensions and contingency factors shape organization performance.";
+  function escapeHTML(text) {
+    return text
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;")
+      .replace(/\n/g, "<br>");
   }
 
-  document.getElementById("reflection").classList.add("hidden");
-  document.getElementById("summary").classList.remove("hidden");
+  function showSummary() {
+    const response1 = escapeHTML(document.getElementById("response1").value);
+    const response2 = escapeHTML(document.getElementById("response2").value);
+    const response3 = escapeHTML(document.getElementById("response3").value);
+    const response4 = escapeHTML(document.getElementById("response4").value);
 
-  document.getElementById("summary").innerHTML = `
-    <h2>Simulation Complete</h2>
+    let interpretation = "";
 
-    <div class="scorebox">
-      <strong>Final Design Score:</strong> ${score} / 18<br>
-      <strong>Final Design:</strong> ${structure}
-    </div>
+    if (score >= 16) {
+      interpretation = "Excellent organizational design thinking. You considered open systems, contingency fit, structure, stakeholders, efficiency, and effectiveness.";
+    } else if (score >= 12) {
+      interpretation = "Good organizational design thinking. You made practical choices, though some areas may need better fit or stronger stakeholder balance.";
+    } else {
+      interpretation = "Developing organizational design thinking. Review how structural dimensions and contingency factors shape organization performance.";
+    }
 
-    <div class="feedback">
-      <h3>Your Result</h3>
-      <p>${interpretation}</p>
-    </div>
+    document.getElementById("reflection").classList.add("hidden");
+    document.getElementById("summary").classList.remove("hidden");
 
-    <h3>Your Reflection Responses</h3>
+    document.getElementById("summary").innerHTML = `
+      <h2>Simulation Complete</h2>
 
-    <div class="card">
-      <strong>1. What made Sariwa Trails an open system?</strong>
-      <p>${response1 || "No response provided."}</p>
-    </div>
+      <div class="scorebox">
+        <strong>Final Design Score:</strong> ${score} / 18<br>
+        <strong>Final Design:</strong> ${structure}
+      </div>
 
-    <div class="card">
-      <strong>2. Which structural dimension was most important in your design?</strong>
-      <p>${response2 || "No response provided."}</p>
-    </div>
+      <div class="feedback">
+        <h3>Your Result</h3>
+        <p>${interpretation}</p>
+      </div>
 
-    <div class="card">
-      <strong>3. Did your final design lean more mechanistic or organic?</strong>
-      <p>${response3 || "No response provided."}</p>
-    </div>
+      <h3>Your Reflection Responses</h3>
 
-    <div class="card">
-      <strong>4. How did stakeholders affect your organizational design decisions?</strong>
-      <p>${response4 || "No response provided."}</p>
-    </div>
+      <div class="card">
+        <strong>1. What made Sariwa Trails an open system?</strong>
+        <p>${response1 || "No response provided."}</p>
+      </div>
 
-    <h3>Key Takeaway</h3>
-    <p>
-      Organization design is not simply about drawing an organizational chart.
-      It is about creating the right fit among structure, strategy, size, technology,
-      environment, culture, stakeholders, efficiency, and effectiveness.
-    </p>
+      <div class="card">
+        <strong>2. Which structural dimension was most important in your design?</strong>
+        <p>${response2 || "No response provided."}</p>
+      </div>
 
-    <button onclick="window.print()" class="secondary">Print or Save as PDF</button>
-    <button onclick="location.reload()" class="secondary">Restart Simulation</button>
-  `;
-}
+      <div class="card">
+        <strong>3. Did your final design lean more mechanistic or organic?</strong>
+        <p>${response3 || "No response provided."}</p>
+      </div>
+
+      <div class="card">
+        <strong>4. How did stakeholders affect your organizational design decisions?</strong>
+        <p>${response4 || "No response provided."}</p>
+      </div>
+
+      <h3>Key Takeaway</h3>
+      <p>
+        Organization design is not simply about drawing an organizational chart.
+        It is about creating the right fit among structure, strategy, size, technology,
+        environment, culture, stakeholders, efficiency, and effectiveness.
+      </p>
+
+      <button onclick="window.print()" class="secondary">Print or Save as PDF</button>
+      <button onclick="location.reload()" class="secondary">Restart Simulation</button>
+    `;
+  }
 </script>
 
 </body>
