@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SYSTHEO Organizational Design Simulation</title>
+  <title>SYSTHEO Simulation: Sariwa Trails</title>
+
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -20,7 +21,7 @@
     }
 
     .container {
-      max-width: 950px;
+      max-width: 980px;
       margin: 30px auto;
       background: white;
       padding: 28px;
@@ -32,11 +33,11 @@
       margin-top: 0;
     }
 
-    .stage {
+    .card {
       background: #ecfdf5;
       border-left: 6px solid #16a34a;
       padding: 18px;
-      margin-bottom: 20px;
+      margin-bottom: 18px;
       border-radius: 10px;
     }
 
@@ -46,6 +47,23 @@
       padding: 16px;
       border-radius: 10px;
       margin: 16px 0;
+    }
+
+    .concept {
+      background: #eff6ff;
+      border-left: 6px solid #2563eb;
+      padding: 16px;
+      border-radius: 10px;
+      margin: 16px 0;
+    }
+
+    .scorebox {
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      padding: 16px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      line-height: 1.6;
     }
 
     .choices {
@@ -70,6 +88,11 @@
       transform: scale(1.01);
     }
 
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
     .secondary {
       background: #334155;
     }
@@ -79,26 +102,18 @@
     }
 
     .feedback {
-      background: #eff6ff;
-      border-left: 6px solid #2563eb;
+      background: #f0f9ff;
+      border-left: 6px solid #0284c7;
       padding: 18px;
       margin-top: 20px;
       border-radius: 10px;
-    }
-
-    .scorebox {
-      background: #f8fafc;
-      border: 1px solid #cbd5e1;
-      padding: 16px;
-      border-radius: 10px;
-      margin-bottom: 20px;
     }
 
     .org-chart {
       display: flex;
       flex-direction: column;
       align-items: center;
-      margin: 25px 0;
+      margin: 24px 0;
     }
 
     .box {
@@ -119,15 +134,25 @@
 
     textarea {
       width: 100%;
-      min-height: 120px;
+      min-height: 100px;
       padding: 12px;
       font-size: 15px;
       border-radius: 10px;
       border: 1px solid #cbd5e1;
+      box-sizing: border-box;
     }
 
     .hidden {
       display: none;
+    }
+
+    .pill {
+      display: inline-block;
+      padding: 6px 10px;
+      background: #dcfce7;
+      border-radius: 999px;
+      margin: 4px;
+      font-size: 14px;
     }
 
     footer {
@@ -142,28 +167,41 @@
 
 <header>
   <h1>SYSTHEO Organizational Design Simulation</h1>
-  <p>EcoTripp: Evolving Structures</p>
+  <p>Sariwa Trails: Designing an Organization as It Grows</p>
 </header>
 
 <div class="container" id="app">
 
   <div id="intro">
-    <h2>Welcome to the EcoTripp Simulation</h2>
-    <p>
-      EcoTripp is a sustainable travel company that started as a small five-person startup.
-      As the company grows, its structure, communication, decision-making, and coordination
-      systems begin to face pressure.
-    </p>
+    <h2>Welcome to the Simulation</h2>
 
     <p>
-      Your task is to make organizational design decisions as EcoTripp evolves.
-      There is no single perfect answer. Each structure has advantages and trade-offs.
+      Sariwa Trails is a fictional sustainable local travel and learning company.
+      It designs educational trips, eco-tours, and community-based learning experiences
+      for schools, companies, and small groups.
     </p>
 
-    <div class="stage">
-      <strong>Your goal:</strong> Help EcoTripp balance flexibility, coordination,
-      accountability, and growth.
+    <div class="card">
+      <strong>Your role:</strong> You are part of the management team. Your task is to redesign
+      the organization as it grows from a small startup to a more established company.
     </div>
+
+    <div class="concept">
+      <strong>Before starting:</strong> This simulation uses concepts from Chapter 1:
+      <br>
+      <span class="pill">Open System</span>
+      <span class="pill">Structural Dimensions</span>
+      <span class="pill">Contingency Factors</span>
+      <span class="pill">Mechanistic Design</span>
+      <span class="pill">Organic Design</span>
+      <span class="pill">Stakeholders</span>
+      <span class="pill">Efficiency</span>
+      <span class="pill">Effectiveness</span>
+    </div>
+
+    <p>
+      There is no single perfect answer. Each design choice has advantages and trade-offs.
+    </p>
 
     <button onclick="startSimulation()">Start Simulation</button>
   </div>
@@ -171,8 +209,8 @@
   <div id="simulation" class="hidden">
     <div class="scorebox">
       <strong>Current Stage:</strong> <span id="stageLabel"></span><br>
-      <strong>Design Score:</strong> <span id="score">0</span><br>
-      <strong>Current Structure:</strong> <span id="structureLabel">None yet</span>
+      <strong>Design Score:</strong> <span id="score">0</span> / 18<br>
+      <strong>Current Design:</strong> <span id="structureLabel">None yet</span>
     </div>
 
     <div id="content"></div>
@@ -180,18 +218,18 @@
 
   <div id="reflection" class="hidden">
     <h2>Final Reflection</h2>
-    <p>Answer the following questions in 3–5 sentences each. You may copy your answers for Canvas submission.</p>
+    <p>Answer briefly. You may copy your responses for Canvas submission.</p>
 
-    <h3>1. What organizational problems emerged as EcoTripp grew?</h3>
+    <h3>1. What made Sariwa Trails an open system?</h3>
     <textarea></textarea>
 
-    <h3>2. What structure would you recommend for EcoTripp at the midsize stage? Why?</h3>
+    <h3>2. Which structural dimension was most important in your design: formalization, specialization, hierarchy, complexity, or centralization? Why?</h3>
     <textarea></textarea>
 
-    <h3>3. What trade-off did you notice between flexibility and control?</h3>
+    <h3>3. Did your final design lean more mechanistic or organic? Explain.</h3>
     <textarea></textarea>
 
-    <h3>4. How is this simulation connected to organizations as systems?</h3>
+    <h3>4. How did stakeholders affect your organizational design decisions?</h3>
     <textarea></textarea>
 
     <br><br>
@@ -213,175 +251,280 @@
 
   const stages = [
     {
-      label: "Stage 1: Five-Person Startup",
-      title: "EcoTripp Begins",
+      label: "Stage 1: Open System",
+      title: "Sariwa Trails Meets Its Environment",
       description: `
-        EcoTripp starts with five people: one founder, one marketing assistant,
-        one operations coordinator, one finance/admin officer, and one customer support staff.
-        Everyone talks directly to everyone. Decisions are fast, but roles are informal.
+        Sariwa Trails receives inputs from the external environment: local guides, community partners,
+        travel suppliers, school clients, government tourism rules, and customer feedback.
+        It transforms these inputs into educational travel experiences and sustainability programs.
+      `,
+      concept: `
+        Chapter 1 Concept: An organization is an open system. It receives inputs from the environment,
+        transforms them, and produces outputs such as products, services, and value.
       `,
       problem: `
-        Problem: The company is flexible, but responsibilities are unclear.
-        Some tasks are repeated, while others are forgotten.
+        Problem: The team has been focused only on internal tasks. They are not regularly monitoring
+        customers, suppliers, regulations, and community partners.
+      `,
+      chart: `
+        <div class="org-chart">
+          <div class="row">
+            <div class="box">Inputs<br>People, suppliers, information</div>
+            <div class="box">Transformation<br>Trip design and coordination</div>
+            <div class="box">Outputs<br>Learning trips and services</div>
+          </div>
+          <div class="box">Feedback from schools, clients, partners, and communities</div>
+        </div>
+      `,
+      choices: [
+        {
+          text: "Focus only on internal efficiency and ignore external feedback for now.",
+          points: 1,
+          structure: "Internally Focused Design",
+          feedback: "This may improve short-term efficiency, but it weakens Sariwa Trails as an open system."
+        },
+        {
+          text: "Create a simple feedback loop with clients, guides, and community partners.",
+          points: 3,
+          structure: "Open-System Design",
+          feedback: "Strong choice. This helps the organization adapt to its environment and improve its services."
+        },
+        {
+          text: "Wait until the company grows before monitoring the external environment.",
+          points: 1,
+          structure: "Reactive Design",
+          feedback: "This is risky. Even small organizations are affected by customers, suppliers, competitors, and regulations."
+        }
+      ]
+    },
+    {
+      label: "Stage 2: Structural Dimensions",
+      title: "From Informal Startup to Clearer Roles",
+      description: `
+        Sariwa Trails now has 12 people. Everyone is helping with everything: marketing, booking,
+        coordination, finance, tour design, and customer support.
+      `,
+      concept: `
+        Chapter 1 Concept: Structural dimensions include formalization, specialization,
+        hierarchy of authority, complexity, and centralization.
+      `,
+      problem: `
+        Problem: Work is flexible, but confusing. Some tasks are duplicated, while some are forgotten.
+        Customers sometimes receive different answers from different team members.
       `,
       chart: `
         <div class="org-chart">
           <div class="box">Founder</div>
           <div class="row">
-            <div class="box">Marketing</div>
-            <div class="box">Operations</div>
-            <div class="box">Finance/Admin</div>
-            <div class="box">Customer Support</div>
+            <div class="box">Everyone does marketing</div>
+            <div class="box">Everyone does operations</div>
+            <div class="box">Everyone answers clients</div>
           </div>
         </div>
       `,
       choices: [
         {
-          text: "Keep the flat structure because the team is still small.",
-          points: 2,
-          structure: "Flat Structure",
-          feedback: "Good choice for flexibility. However, EcoTripp still needs clearer role expectations to avoid confusion."
+          text: "Add basic role descriptions and assign clear task owners.",
+          points: 3,
+          structure: "Low Formalization with Role Clarity",
+          feedback: "Strong choice. The company keeps flexibility but improves accountability and coordination."
         },
         {
-          text: "Create strict departments immediately.",
+          text: "Create a thick policy manual for every possible task.",
+          points: 2,
+          structure: "High Formalization",
+          feedback: "This improves consistency but may be too heavy for a young and flexible company."
+        },
+        {
+          text: "Keep all roles informal because the team knows each other anyway.",
           points: 1,
-          structure: "Early Functional Structure",
-          feedback: "This adds clarity, but it may be too formal for a five-person startup and may slow down creativity."
-        },
-        {
-          text: "Assign clear roles but keep communication open.",
-          points: 3,
-          structure: "Simple Structure with Role Clarity",
-          feedback: "Strong choice. EcoTripp keeps flexibility while reducing confusion through clearer responsibilities."
+          structure: "Informal Structure",
+          feedback: "This may feel comfortable, but it can worsen duplication, confusion, and inconsistent service."
         }
       ]
     },
     {
-      label: "Stage 2: Growing Company with 20 Employees",
-      title: "EcoTripp Expands",
+      label: "Stage 3: Contingency Factors",
+      title: "The Situation Changes",
       description: `
-        EcoTripp now has 20 employees. It offers eco-tours, school travel programs,
-        corporate sustainability trips, and online booking support.
+        Sariwa Trails grows to 30 people. It now serves schools, companies, and family groups.
+        It also uses an online booking platform and works with community partners in different provinces.
+      `,
+      concept: `
+        Chapter 1 Concept: Good organization design depends on contingency factors such as size,
+        technology, environment, goals and strategy, and culture.
       `,
       problem: `
-        Problem: The founder is overloaded. Employees are unsure who approves decisions.
-        Marketing promises packages that operations cannot always deliver.
+        Problem: The current design no longer fits the organization. The company is bigger,
+        the environment is changing, and its services are becoming more complex.
       `,
       chart: `
         <div class="org-chart">
-          <div class="box">Founder</div>
+          <div class="box">Sariwa Trails</div>
           <div class="row">
-            <div class="box">Marketing Team</div>
-            <div class="box">Tour Operations</div>
-            <div class="box">Finance/Admin</div>
-            <div class="box">Customer Experience</div>
+            <div class="box">Size: 30 employees</div>
+            <div class="box">Technology: Online booking</div>
+            <div class="box">Environment: Schools, companies, communities</div>
+            <div class="box">Strategy: Sustainable learning travel</div>
           </div>
         </div>
       `,
       choices: [
         {
-          text: "Use a functional structure organized by department.",
+          text: "Design the structure based on the company’s current size, technology, environment, goals, and culture.",
           points: 3,
-          structure: "Functional Structure",
-          feedback: "Good choice. Functional structure improves specialization, accountability, and coordination within departments."
+          structure: "Contingency-Based Design",
+          feedback: "Excellent. This applies contingency thinking: structure should fit the situation."
         },
         {
-          text: "Keep everyone reporting directly to the founder.",
+          text: "Copy the structure of a large travel corporation.",
           points: 1,
-          structure: "Founder-Centered Structure",
-          feedback: "This may preserve control, but it creates bottlenecks and slows down decision-making."
+          structure: "Copied Corporate Design",
+          feedback: "This may not fit. Chapter 1 reminds us that there is no one best way to design all organizations."
         },
         {
-          text: "Create product teams immediately for every tour package.",
-          points: 2,
-          structure: "Product Team Structure",
-          feedback: "This can help customer focus, but it may be too early and resource-heavy for only 20 employees."
+          text: "Keep the old startup structure because it worked before.",
+          points: 1,
+          structure: "Outgrown Startup Design",
+          feedback: "What worked for a small startup may no longer work for a larger and more complex organization."
         }
       ]
     },
     {
-      label: "Stage 3: Midsize Company with 50 Employees",
-      title: "EcoTripp Becomes Established",
+      label: "Stage 4: Mechanistic or Organic?",
+      title: "Choosing the Design Direction",
       description: `
-        EcoTripp now has 50 employees. It serves schools, companies, families,
-        and international visitors. The company also has remote staff and regional tour partners.
+        Sariwa Trails wants to remain creative and adaptive, but it also needs consistency,
+        safety, quality control, and reliable service delivery.
+      `,
+      concept: `
+        Chapter 1 Concept: Mechanistic designs are more centralized, formalized, specialized,
+        and hierarchical. Organic designs are more decentralized, flexible, collaborative, and adaptive.
       `,
       problem: `
-        Problem: Coordination is now more complex. Different customer groups have different needs.
-        Sustainability standards are not applied consistently across all tours.
+        Problem: The company needs both control and flexibility. Too much control may kill creativity.
+        Too much flexibility may create inconsistent service.
       `,
       chart: `
         <div class="org-chart">
-          <div class="box">CEO / Founder</div>
           <div class="row">
-            <div class="box">Marketing</div>
-            <div class="box">Operations</div>
-            <div class="box">Finance</div>
-            <div class="box">HR</div>
-            <div class="box">Sustainability</div>
+            <div class="box">Mechanistic<br>Control, rules, hierarchy</div>
+            <div class="box">Organic<br>Flexibility, teamwork, adaptation</div>
           </div>
         </div>
       `,
       choices: [
         {
-          text: "Remain purely functional because departments are already familiar.",
+          text: "Use a mostly mechanistic design with strict approvals for all decisions.",
           points: 2,
-          structure: "Functional Structure",
-          feedback: "This keeps efficiency, but it may not fully address the different needs of schools, companies, and tourists."
+          structure: "Mostly Mechanistic Design",
+          feedback: "This may improve control and consistency, but it may slow down response time and innovation."
         },
         {
-          text: "Shift to a divisional structure based on customer segments.",
+          text: "Use a mostly organic design with empowered teams and a few clear rules for safety and quality.",
           points: 3,
-          structure: "Divisional Structure",
-          feedback: "Strong choice. Divisions by customer segment can improve responsiveness, but may duplicate some resources."
+          structure: "Organic Design with Minimum Controls",
+          feedback: "Strong choice. This balances adaptability with essential coordination and service standards."
         },
         {
-          text: "Use a matrix structure combining functions and customer/project teams.",
-          points: 3,
-          structure: "Matrix Structure",
-          feedback: "Strong but complex choice. Matrix structure improves collaboration but may create confusion if reporting lines are unclear."
+          text: "Use a fully informal design with no reporting lines or written procedures.",
+          points: 1,
+          structure: "Loose Organic Design",
+          feedback: "This gives flexibility, but it may create confusion, weak accountability, and inconsistent service quality."
         }
       ]
     },
     {
-      label: "Stage 4: Coordination Challenge",
-      title: "The Hidden Problem",
+      label: "Stage 5: Stakeholder Approach",
+      title: "Different Groups Want Different Things",
       description: `
-        EcoTripp has a structure, but employees still complain about slow updates,
-        unclear communication, and inconsistent decisions.
+        Sariwa Trails now has many stakeholders: students, parents, schools, employees,
+        local communities, suppliers, regulators, and owners.
+      `,
+      concept: `
+        Chapter 1 Concept: A stakeholder is any group inside or outside the organization that has
+        a stake in the organization’s performance. Managers must balance different stakeholder expectations.
       `,
       problem: `
-        Problem: Structure alone is not enough. The company also needs coordination systems.
+        Problem: Owners want growth. Schools want safety and learning outcomes. Communities want respect and fair income.
+        Employees want manageable workloads. Customers want value for money.
       `,
       chart: `
         <div class="org-chart">
-          <div class="box">Organization Structure</div>
+          <div class="box">Sariwa Trails</div>
           <div class="row">
-            <div class="box">Meetings</div>
-            <div class="box">Policies</div>
-            <div class="box">Shared Tools</div>
-            <div class="box">Decision Rules</div>
+            <div class="box">Schools</div>
+            <div class="box">Students and Parents</div>
+            <div class="box">Employees</div>
+            <div class="box">Community Partners</div>
+            <div class="box">Owners</div>
+            <div class="box">Government</div>
           </div>
         </div>
       `,
       choices: [
         {
-          text: "Add weekly cross-functional meetings and a shared project tracker.",
-          points: 3,
-          structure: structure + " + Coordination Systems",
-          feedback: "Excellent choice. Organizational design includes both structure and coordination mechanisms."
-        },
-        {
-          text: "Ask employees to communicate better without changing systems.",
+          text: "Prioritize only owners and revenue growth.",
           points: 1,
           structure: structure,
-          feedback: "This is too vague. Communication problems often need systems, routines, and tools."
+          feedback: "This may improve revenue in the short term, but it can damage trust with other key stakeholders."
         },
         {
-          text: "Require all decisions to go back to the founder.",
+          text: "Create stakeholder standards for safety, learning quality, community benefit, and financial sustainability.",
+          points: 3,
+          structure: structure + " + Stakeholder Standards",
+          feedback: "Excellent. This reflects the stakeholder approach and supports long-term effectiveness."
+        },
+        {
+          text: "Let each department decide separately which stakeholders matter most.",
+          points: 2,
+          structure: structure + " + Department-Level Stakeholder Decisions",
+          feedback: "This gives flexibility, but it can lead to inconsistent decisions across the organization."
+        }
+      ]
+    },
+    {
+      label: "Stage 6: Efficiency and Effectiveness",
+      title: "Final Design Decision",
+      description: `
+        Sariwa Trails wants to reduce costs, avoid duplicated work, improve service quality,
+        protect its social mission, and respond faster to clients and partners.
+      `,
+      concept: `
+        Chapter 1 Concept: Efficiency means using fewer resources to achieve goals.
+        Effectiveness means achieving organizational goals. Good design should consider both.
+      `,
+      problem: `
+        Problem: The company can become efficient by standardizing everything,
+        but it may lose creativity and stakeholder responsiveness. It can become highly adaptive,
+        but it may become costly and inconsistent.
+      `,
+      chart: `
+        <div class="org-chart">
+          <div class="row">
+            <div class="box">Efficiency<br>Cost, speed, resource use</div>
+            <div class="box">Effectiveness<br>Goals, quality, stakeholder satisfaction</div>
+          </div>
+        </div>
+      `,
+      choices: [
+        {
+          text: "Standardize all services to reduce cost, even if learning quality and community fit decline.",
           points: 1,
-          structure: "Centralized Structure",
-          feedback: "This may create consistency, but it also creates bottlenecks and weakens employee ownership."
+          structure: structure + " + Efficiency Focus",
+          feedback: "This may improve efficiency, but it weakens effectiveness if goals and stakeholder needs are not met."
+        },
+        {
+          text: "Customize every service fully, even if costs and workload become too high.",
+          points: 2,
+          structure: structure + " + Effectiveness Focus",
+          feedback: "This may improve stakeholder satisfaction, but it may become inefficient and difficult to sustain."
+        },
+        {
+          text: "Standardize core processes but allow teams to adapt parts of the service to client and community needs.",
+          points: 3,
+          structure: structure + " + Balanced Efficiency and Effectiveness",
+          feedback: "Excellent. This balances efficiency with effectiveness and supports sustainable organizational performance."
         }
       ]
     }
@@ -396,6 +539,7 @@
 
   function renderStage() {
     const s = stages[stage];
+
     document.getElementById("stageLabel").innerText = s.label;
     document.getElementById("score").innerText = score;
     document.getElementById("structureLabel").innerText = structure;
@@ -407,16 +551,18 @@
 
     document.getElementById("content").innerHTML = `
       <h2>${s.title}</h2>
-      <div class="stage">${s.description}</div>
+      <div class="card">${s.description}</div>
+      <div class="concept">${s.concept}</div>
       ${s.chart}
       <div class="problem">${s.problem}</div>
-      <h3>What should EcoTripp do?</h3>
+      <h3>What should Sariwa Trails do?</h3>
       <div class="choices">${choicesHTML}</div>
     `;
   }
 
   function chooseOption(index) {
     const choice = stages[stage].choices[index];
+
     score += choice.points;
     structure = choice.structure;
 
@@ -436,13 +582,13 @@
     buttons.forEach((btn, i) => {
       if (i < stages[stage].choices.length) {
         btn.disabled = true;
-        btn.style.opacity = "0.6";
       }
     });
   }
 
   function nextStage() {
     stage++;
+
     if (stage < stages.length) {
       renderStage();
     } else {
@@ -454,12 +600,12 @@
   function showSummary() {
     let interpretation = "";
 
-    if (score >= 11) {
-      interpretation = "Excellent design thinking. You balanced flexibility, coordination, accountability, and growth.";
-    } else if (score >= 8) {
-      interpretation = "Good design thinking. You made practical choices, but some areas may need stronger coordination.";
+    if (score >= 16) {
+      interpretation = "Excellent organizational design thinking. You considered open systems, contingency fit, structure, stakeholders, efficiency, and effectiveness.";
+    } else if (score >= 12) {
+      interpretation = "Good organizational design thinking. You made practical choices, though some areas may need better fit or stronger stakeholder balance.";
     } else {
-      interpretation = "Developing design thinking. Review how structure, communication, and decision-making affect organizational performance.";
+      interpretation = "Developing organizational design thinking. Review how structural dimensions and contingency factors shape organization performance.";
     }
 
     document.getElementById("reflection").classList.add("hidden");
@@ -467,9 +613,10 @@
 
     document.getElementById("summary").innerHTML = `
       <h2>Simulation Complete</h2>
+
       <div class="scorebox">
-        <strong>Final Design Score:</strong> ${score} / 12<br>
-        <strong>Final Structure:</strong> ${structure}
+        <strong>Final Design Score:</strong> ${score} / 18<br>
+        <strong>Final Design:</strong> ${structure}
       </div>
 
       <div class="feedback">
@@ -479,9 +626,9 @@
 
       <h3>Key Takeaway</h3>
       <p>
-        Organizational design is not only about drawing boxes in an org chart.
-        It is about aligning people, roles, decisions, communication, and systems
-        with the organization’s strategy and environment.
+        Organization design is not simply about drawing an organizational chart.
+        It is about creating the right fit among structure, strategy, size, technology,
+        environment, culture, stakeholders, efficiency, and effectiveness.
       </p>
 
       <button onclick="location.reload()" class="secondary">Restart Simulation</button>
